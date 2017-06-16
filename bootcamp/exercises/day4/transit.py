@@ -1,15 +1,8 @@
 import numpy as np
-<<<<<<< HEAD
 import matplotlib.pyplot as plt
 import math
-# Write a function that takes the object numer (e.g. 7016.01) 
-# as an argument and returns two arrays: time and flux, read 
-=======
-
 # Write a function that takes the object numer (e.g. 7016.01)
-# as an argument and returns two arrays: time and flux, read
->>>>>>> 7e904a73b98df4ff8d273d5f289cebe690c65ddd
-# from the data file ('data/7016.01.txt').
+# as an argument and returns two arrays: time and flux, read 
 def read_data(object_num):
 	pass
 
@@ -21,7 +14,7 @@ def read_data(object_num):
 # and plots time vs. flux of the data returned by (1).
 def plot_data(object_num):
 	t, f = read_data(object_num);
-	plot(t, f)	
+	plot(t, f)
 
 
 
