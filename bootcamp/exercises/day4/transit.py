@@ -108,4 +108,4 @@ def plot_fit(object_num, param_guess):
 # Use scipy.optimize.minimize to find the best-fit parameters for
 # the 7016.01 data set, and display these results using (6).
 def fit_trapezoid(object_num, *args):
-	pass
+        return scipy.optimize.minimize(trapezoid(pars,t),pars)
