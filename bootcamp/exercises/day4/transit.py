@@ -1,14 +1,8 @@
 import numpy as np
-<<<<<<< HEAD
 import matplotlib.pyplot as plt
 import math
-# Write a function that takes the object numer (e.g. 7016.01) 
-# as an argument and returns two arrays: time and flux, read 
-=======
-
 # Write a function that takes the object numer (e.g. 7016.01)
 # as an argument and returns two arrays: time and flux, read
->>>>>>> 7e904a73b98df4ff8d273d5f289cebe690c65ddd
 # from the data file ('data/7016.01.txt').
 def read_data(object_num):
         time = np.loadtxt("%s.txt"%(object_num),usecols = [0])
@@ -18,11 +12,13 @@ def read_data(object_num):
 
 
 
+
 # Write a function that takes the object number as an argument
 # and plots time vs. flux of the data returned by (1).
 def plot_data(object_num):
 	t, f = read_data(object_num);
-	plot(t, f)	
+	plt.plot(t, f);
+	plt.show();
 
 
 
@@ -40,7 +36,7 @@ def trapezoid(pars, t):
 	in_rad = T/2 - tau
 
 	# return function based on conditions
-	if dt < ir:
+	if dt < in_rad:
 		return 0 - delta
 	elif dt < T/2:
 		return 0 - delta + (delta/tau)*(dt - in_rad)
@@ -88,10 +84,19 @@ def vary_t0(t0s):
 # Use what you did in (5) to write a function that takes the
 # object number and a parameter vector, and then makes the data
 # + models + residuals plot.
-def tr.plot_fit(object_num, param_guess):
+def plot_fit(object_num, param_guess):
 	t, f = read_data(object_num);
 	m = trapezoid(param_guess, t);
-	plot()
+	r = f - m;
+	z = np.zeros_like(r);
+	fig, ax = plt.subplots();
+	ax.scatter(t, f);
+	ax.plot(t, m);
+	plt.show();
+	fig2, ax2 = plt.subplots();
+	ax2.scatter(t, r);
+	ax2.plot(t, z);
+	plt.show();
 
 
 
