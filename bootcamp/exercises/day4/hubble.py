@@ -47,4 +47,13 @@ def model(r, v):
 # The resulting $H_0$ is Hubble's own version of the "Hubble
 # constant". What do you get?
 def better_model(r, v, ra, dec):
-	return H_0
+	return H_0, X, Y, Z
+
+
+
+
+
+
+
+
+

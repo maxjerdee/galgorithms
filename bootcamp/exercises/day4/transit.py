@@ -33,19 +33,25 @@ def plot_data(object_num):
 # as a function of time.
 def trapezoid(pars, t):
 	# initialize variable
-	delta,T,tau,t0 = pars
+	delta,T,tau,t0 = pars;
 	# create useful vars
-	dt = np.abs(t-t0)
-	in_rad = T/2 - tau
-	f = np.zeros(t.shape) # default function array
+	dt = np.abs(t-t0);
+	ir = T/2 - tau;
+	f = np.zeros(t.shape); 
+    # default function array
 
 	# create bool arrays
-	bottom = [dt < ir]
-	slope = [dt >= ir and dt < T/2]
+	bottom = [dt < ir];
+	slope = [dt >= ir and dt < T/2];
 
 	# change values of default function array based on conditions
+<<<<<<< HEAD
 	f[bottom] = 0 - delta # bottom of trapezoid
 	f[slope] = 0 - delta + (delta/tau)*(dt[slope] - in_rad)
+=======
+	f[bottom] = 0 - delta; # bottom of trapezoid
+	f[slope] = 0 - delta + (delta/tau)(dt[slope] - in_rad);
+>>>>>>> 01d0c0cf5807e5c2536fdfe69be3ebb885c7e962
 
 	return f
 
@@ -109,4 +115,4 @@ def plot_fit(object_num, param_guess):
 # Use scipy.optimize.minimize to find the best-fit parameters for
 # the 7016.01 data set, and display these results using (6).
 def fit_trapezoid(object_num, *args):
-        return scipy.optimize.minimize(trapezoid(pars,t),pars)
+    return scipy.optimize.minimize(trapezoid(pars,t),pars)
