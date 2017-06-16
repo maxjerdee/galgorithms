@@ -31,15 +31,17 @@ def trapezoid(pars, t):
 	# create useful vars
 	dt = np.abs(t-t0)
 	in_rad = T/2 - tau
+    f = np.zeros(t.shape) # default function array
 
-	# return function based on conditions
-	if dt < ir:
-		return 0 - delta
-	elif dt < T/2:
-		return 0 - delta + (delta/tau)*(dt - in_rad)
-	else:
-		return 0
+	# create bool arrays
+	bottom = [dt < ir]
+	slope = [dt >= ir and dt < T/2]
 
+	# change values of default function array based on conditions
+	f[bottom] = 0 - delta # bottom of trapezoid
+	f[slope] = 0 - delta + (delta/tau)(dt[slope] - in_rad)
+
+	return f
 
 # Make four different plots that show how the trapezoid shape
 # changes when you vary each parameter independently (maybe 10
