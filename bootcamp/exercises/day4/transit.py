@@ -12,7 +12,8 @@ def read_data(object_num):
 # Write a function that takes the object number as an argument
 # and plots time vs. flux of the data returned by (1).
 def plot_data(object_num):
-	pass
+	t, f = read_data(object_num);
+	plot(t, f)	
 
 
 
@@ -57,7 +58,9 @@ def vary_t0(depths):
 # object number and a parameter vector, and then makes the data 
 # + models + residuals plot.
 def tr.plot_fit(object_num, param_guess):
-	pass
+	t, f = read_data(object_num);
+	m = trapezoid(param_guess, t);
+	plot()
 
 
 
