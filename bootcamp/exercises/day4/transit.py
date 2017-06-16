@@ -5,9 +5,8 @@ import math
 # as an argument and returns two arrays: time and flux, read
 # from the data file ('data/7016.01.txt').
 def read_data(object_num):
-        time = np.loadtxt("%s.txt"%(object_num),usecols = [0])
-        flux = np.loadtxt("%s.txt"%(object_num),usecols = [1])
-        return time,flux
+	pass
+
 
 
 
@@ -16,9 +15,10 @@ def read_data(object_num):
 # Write a function that takes the object number as an argument
 # and plots time vs. flux of the data returned by (1).
 def plot_data(object_num):
-	t, f = read_data(object_num);
-	plt.plot(t, f);
-	plt.show();
+	t, f = read_data(object_num)
+	plt.plot(t, f)
+	plt.show()
+
 
 
 
