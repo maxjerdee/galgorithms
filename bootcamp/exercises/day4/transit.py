@@ -73,12 +73,15 @@ def tr.plot_fit(object_num, param_guess):
 	t, f = read_data(object_num);
 	m = trapezoid(param_guess, t);
 	r = f - m;
-	
+	z = np.zeros_like(r);
 	fig, ax = plt.subplots();
 	ax.scatter(t, f);
 	ax.plot(t, m);
 	show();
-
+	fig2, ax2 = plt.subplots();
+	ax2.scatter(t, r);
+	ax2.plot(t, z);
+	show();
 
 
 
