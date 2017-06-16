@@ -5,7 +5,9 @@ import math
 # as an argument and returns two arrays: time and flux, read
 # from the data file ('data/7016.01.txt').
 def read_data(object_num):
-	pass
+        time = np.loadtxt('%s.txt'%(object_num),usecols = [0])
+        flux = np.loadtxt('%s.txt'%(object_num),usecols= [1])
+        return time, flux
 
 
 
