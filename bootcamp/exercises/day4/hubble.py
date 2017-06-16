@@ -14,11 +14,9 @@ from astropy.coordinates import SkyCoord
 # RETURN DATA AS str str float(R) float(V) float(RA) float(DEC)
 def read_data_and_conv():
 	data = np.genfromtxt('table1.txt',skipheader=1)
+	data[:, 4] = data[:,4]*u.degree
 	data[:, 5] = data[:,5]*u.degree
-	data[:, 6] = data[:,6]*u.degree
 	return data
-
-
 
 # Use np.linalg.lstsq to fit a linear regression function and
 # determine the slope $H_0$ of the line $V=H_0 R$. For that,
@@ -47,13 +45,4 @@ def model(r, v):
 # The resulting $H_0$ is Hubble's own version of the "Hubble
 # constant". What do you get?
 def better_model(r, v, ra, dec):
-	return H_0, X, Y, Z
-
-
-
-
-
-
-
-
-
+	return H_0
