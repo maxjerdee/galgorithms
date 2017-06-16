@@ -11,8 +11,8 @@ import math
 # IN THIS METHOD ALSO CONVERT TO DEGREES
 # RETURN DATA AS str str float(R) float(V) float(RA) float(DEC)
 def read_data_and_conv():
-	pass
-
+	data = np.genfromtxt('table1.txt')
+	
 
 
 
