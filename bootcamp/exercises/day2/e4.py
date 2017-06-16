@@ -9,8 +9,9 @@ def gaussian2D(x,y,mean_xy,cov):
 x = np.arange(0.,10.,0.1)
 y  = np.arange(0.,10.,0.1)
 x,y = np.meshgrid(x,y)
-mean_xy = np.array([5.,5.])
-cov = np.array([[1,1],[0.,1]])**2.
+mean_xy = np.array(
+[5.,4.])
+cov = np.array([[1.,1.],[1.,2.]])**2.
 f = gaussian2D(x.ravel(), y.ravel(), mean_xy, cov)
 f.reshape(100,100)
 
