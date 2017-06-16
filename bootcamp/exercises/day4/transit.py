@@ -1,4 +1,6 @@
-
+import numpy as np
+import matplotlib.pyplot as plt
+import math
 # Write a function that takes the object numer (e.g. 7016.01) 
 # as an argument and returns two arrays: time and flux, read 
 # from the data file ('data/7016.01.txt').
