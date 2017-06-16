@@ -11,8 +11,9 @@ import math
 >>>>>>> 7e904a73b98df4ff8d273d5f289cebe690c65ddd
 # from the data file ('data/7016.01.txt').
 def read_data(object_num):
-	pass
-
+        time = np.loadtxt("%s.txt"%(object_num),usecols = [0])
+        flux = np.loadtxt("%s.txt"%(object_num),usecols = [1])
+        return time,flux
 
 
 
