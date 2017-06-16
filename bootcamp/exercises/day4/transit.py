@@ -45,8 +45,13 @@ def trapezoid(pars, t):
 	slope = [dt >= ir & dt < T/2];
 
 	# change values of default function array based on conditions
+<<<<<<< HEAD
+	f[bottom] = 0 - delta # bottom of trapezoid
+	f[slope] = 0 - delta + (delta/tau)*(dt[slope] - in_rad)
+=======
 	f[bottom] = 0 - delta; # bottom of trapezoid
 	f[slope] = 0 - delta + (delta/tau)(dt[slope] - in_rad);
+>>>>>>> 01d0c0cf5807e5c2536fdfe69be3ebb885c7e962
 
 	return f
 
