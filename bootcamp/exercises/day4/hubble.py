@@ -17,10 +17,7 @@ r = data[:,2]
 v = data[:,3] #Max can kill, just added to test model function
 
 def read_data_and_conv():
-<<<<<<< HEAD
-=======
 	data = np.genfromtxt('table1.txt',skipheader=1)
->>>>>>> e0e99d20bd8eba295a8debff5f0c40e4c00be5db
 	data[:, 4] = data[:,4]*u.degree
 	data[:, 5] = data[:,5]*u.degree
 	return data
@@ -35,8 +32,11 @@ def read_data_and_conv():
 # in the fit?
 def model(r, v):
 	A = np.vstack([r, np.ones(len(r))])
-	print(A)
-	np.linalg.lstsq(A,v)[0]
+	m, b = np.linalg.lstsq(A,v)[0]
+	plt.scatter(r,v)
+	plt.plot(r,m*r)
+	#plt.plot(r,m*r+b) #With intercept
+	plt.show()
 	
 	# return slope
 
