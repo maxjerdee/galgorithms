@@ -3,8 +3,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import math
-t = np.linspace(1,10,100);
-fig, ax = plt.subplots();
-ax.scatter(t, t+10)
-ax.plot(t, t+2)
-plt.show()
+def f():
+	return 1, 2, [3, 2]
+MPC_OVER_KM= 3.086*10**19
+print(MPC_OVER_KM)
+print(np.stack(([1,2,3],[4,5,6]),axis=1))

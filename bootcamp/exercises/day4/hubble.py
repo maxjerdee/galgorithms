@@ -12,12 +12,10 @@ from astropy.coordinates import SkyCoord
 # RA, DEC: equatorial coordinates of the galaxy
 # IN THIS METHOD ALSO CONVERT TO DEGREES
 # RETURN DATA AS str str float(R) float(V) float(RA) float(DEC)
-data = np.genfromtxt('table1.txt',skip_header=1)
-r = data[:,2]
-v = data[:,3] #Max can kill, just added to test model function
 
 def read_data_and_conv():
 	data = np.genfromtxt('table1.txt', dtype="S8,S8,f8,f8,S8,S8", skip_header=1)
+	#print(data)
 	r = np.zeros(len(data))
 	v = np.zeros(len(data))
 	ra = np.zeros(len(data))
@@ -25,8 +23,10 @@ def read_data_and_conv():
 	for i in range(len(data)):
 		r[i] = data[i][2];
 		v[i] = data[i][3];
-		ra[i] = float(data[i][4]);
-		dec[i] = float(data[i][5]);
+		val1 = data[i][4].decode("utf-8").split(":");
+		val2 = data[i][5].decode("utf-8").split(":");
+		ra[i] = float(val1[0]) + float(val1[1])/60 + float(val1[2])/360
+		dec[i] = float(val2[0]) + float(val2[1])/60 + float(val2[2])/3600
 	return r, v, ra, dec
 
 # Use np.linalg.lstsq to fit a linear regression function and
@@ -38,14 +38,10 @@ def read_data_and_conv():
 # intercept? How would $H_0$ change if you include an intercept
 # in the fit?
 def model(r, v):
-	A = np.vstack([r, np.ones(len(r))])
+	A = np.vstack([r, np.ones(len(r))]).T
 	m, b = np.linalg.lstsq(A,v)[0]
-	plt.scatter(r,v)
-	plt.plot(r,m*r)
-	#plt.plot(r,m*r+b) #With intercept
-	plt.show()
 	
-	# return slope
+	return m
 
 
 # V is a combination of any assumed cosmic expansion and the
@@ -59,7 +55,7 @@ def model(r, v):
 # The resulting $H_0$ is Hubble's own version of the "Hubble
 # constant". What do you get?
 def better_model(r, v, ra, dec):
-	design = np.stack((r, math.cos(ra)*math.cos(dec), math.sin(ra)*math.cos(dec), math.sin(dec)),axis=0).T
+	design = np.stack((r, np.cos(ra)*np.cos(dec), np.sin(ra)*np.cos(dec), np.sin(dec)),axis=0).T
 	s_inv = np.eye(len(r))
 	cov = np.linalg.inv(design.T @ s_inv @ design);
 	best = cov @ design.T @ s_inv @ v;
