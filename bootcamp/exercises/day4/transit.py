@@ -42,7 +42,7 @@ def trapezoid(pars, t):
 
 	# create bool arrays
 	bottom = [dt < ir];
-	slope = [dt >= ir and dt < T/2];
+	slope = [dt >= ir & dt < T/2];
 
 	# change values of default function array based on conditions
 	f[bottom] = 0 - delta; # bottom of trapezoid
