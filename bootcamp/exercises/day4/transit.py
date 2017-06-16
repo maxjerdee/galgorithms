@@ -2,7 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 # Write a function that takes the object numer (e.g. 7016.01)
-# as an argument and returns two arrays: time and flux, read 
+# as an argument and returns two arrays: time and flux, read
+# from the data file ('data/7016.01.txt').
 def read_data(object_num):
 	pass
 
@@ -44,16 +45,29 @@ def trapezoid(pars, t):
 # changes when you vary each parameter independently (maybe 10
 # examples per plot).
 def vary_depth(depths):
-	pass
+	delta = depths
+	pars = delta, T, tau, t0
+	plt.plot(t, trapezoid(pars,t))
+	plt.show()
 
-def vary_duration(depths):
-	pass
+def vary_duration(durations):
+	T = durations
+	pars = delta, T, tau, t0
+	plt.plot(t, trapezoid(pars,t))
+	plt.show()
 
-def vary_tau(depths):
-	pass
+def vary_tau(taus):
+	tau = taus
+	pars = delta, T, tau, t0
+	plt.plot(t, trapezoid(pars,t))
+	plt.show()
 
-def vary_t0(depths):
-	pass
+def vary_t0(t0s):
+	t0 = t0s
+	pars = delta, T, tau, t0
+	plt.plot(t, trapezoid(pars,t))
+	plt.show()
+
 
 
 
