@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import math
+from scipy import optimize
 # Write a function that takes the object numer (e.g. 7016.01)
 # as an argument and returns two arrays: time and flux, read
 # from the data file ('data/7016.01.txt').
@@ -36,7 +37,7 @@ def trapezoid(pars, t):
 	# create useful vars
 	dt = np.abs(t-t0)
 	in_rad = T/2 - tau
-    f = np.zeros(t.shape) # default function array
+	f = np.zeros(t.shape) # default function array
 
 	# create bool arrays
 	bottom = [dt < ir]
