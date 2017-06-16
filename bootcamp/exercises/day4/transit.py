@@ -5,7 +5,10 @@ import math
 # as an argument and returns two arrays: time and flux, read
 # from the data file ('data/7016.01.txt').
 def read_data(object_num):
-	pass
+        time = np.loadtxt('%s.txt'%(object_num),usecols = [0])
+        flux = np.loadtxt('%s.txt'%(object_num),usecols= [1])
+        return time, flux
+
 
 
 
@@ -14,8 +17,10 @@ def read_data(object_num):
 # Write a function that takes the object number as an argument
 # and plots time vs. flux of the data returned by (1).
 def plot_data(object_num):
-	t, f = read_data(object_num);
-	plot(t, f)
+	t, f = read_data(object_num)
+	plt.plot(t, f)
+	plt.show()
+
 
 
 
@@ -83,10 +88,19 @@ def vary_t0(t0s):
 # Use what you did in (5) to write a function that takes the
 # object number and a parameter vector, and then makes the data
 # + models + residuals plot.
-def tr.plot_fit(object_num, param_guess):
+def plot_fit(object_num, param_guess):
 	t, f = read_data(object_num);
 	m = trapezoid(param_guess, t);
-	plot()
+	r = f - m;
+	z = np.zeros_like(r);
+	fig, ax = plt.subplots();
+	ax.scatter(t, f);
+	ax.plot(t, m);
+	plt.show();
+	fig2, ax2 = plt.subplots();
+	ax2.scatter(t, r);
+	ax2.plot(t, z);
+	plt.show();
 
 
 
