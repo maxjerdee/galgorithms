@@ -45,7 +45,7 @@ def trapezoid(pars, t):
 
 	# change values of default function array based on conditions
 	f[bottom] = 0 - delta # bottom of trapezoid
-	f[slope] = 0 - delta + (delta/tau)(dt[slope] - in_rad)
+	f[slope] = 0 - delta + (delta/tau)*(dt[slope] - in_rad)
 
 	return f
 
