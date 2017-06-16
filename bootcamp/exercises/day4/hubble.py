@@ -13,10 +13,17 @@ from astropy.coordinates import SkyCoord
 # IN THIS METHOD ALSO CONVERT TO DEGREES
 # RETURN DATA AS str str float(R) float(V) float(RA) float(DEC)
 def read_data_and_conv():
-	data = np.genfromtxt('table1.txt',skipheader=1)
-	data[:, 4] = data[:,4]*u.degree
-	data[:, 5] = data[:,5]*u.degree
-	return data
+	data = np.genfromtxt('table1.txt', dtype="S8,S8,f8,f8,S8,S8", skip_header=1)
+	r = np.zeros(len(data))
+	v = np.zeros(len(data))
+	ra = np.zeros(len(data))
+	dec = np.zeros(len(data))
+	for i in range(len(data)):
+		r[i] = data[i][2];
+		v[i] = data[i][3];
+		ra[i] = float(data[i][4]);
+		dec[i] = float(data[i][5]);
+	return r, v, ra, dec
 
 # Use np.linalg.lstsq to fit a linear regression function and
 # determine the slope $H_0$ of the line $V=H_0 R$. For that,
@@ -45,4 +52,8 @@ def model(r, v):
 # The resulting $H_0$ is Hubble's own version of the "Hubble
 # constant". What do you get?
 def better_model(r, v, ra, dec):
-	return H_0
+	design = np.stack((r, math.cos(ra)*math.cos(dec), math.sin(ra)*math.cos(dec), math.sin(dec)),axis=0).T
+	s_inv = np.eye(len(r))
+	cov = np.linalg.inv(design.T @ s_inv @ design);
+	best = cov @ design.T @ s_inv @ v;
+	return best[0], best[1], best[2], best[3]

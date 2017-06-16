@@ -5,7 +5,7 @@ import math
 import hubble as hb
 
 MPC_OVER_KM= 3.086*10**19
-cat, num, r, v, ra, dec = hb.read_data_and_conv();
+print(hb.read_data_and_conv());
 fig, ax = plt.subplots();
 ax.scatter(r, v);
 slope = hb.model(r,v);
