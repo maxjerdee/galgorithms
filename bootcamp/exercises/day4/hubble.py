@@ -12,10 +12,13 @@ from astropy.coordinates import SkyCoord
 # RA, DEC: equatorial coordinates of the galaxy
 # IN THIS METHOD ALSO CONVERT TO DEGREES
 # RETURN DATA AS str str float(R) float(V) float(RA) float(DEC)
+data = np.genfromtxt('table1.txt',skip_header=1)
+r = data[:,2]
+v = data[:,3] #Max can kill, just added to test model function
+
 def read_data_and_conv():
-	data = np.genfromtxt('table1.txt',skipheader=1)
+	data[:, 4] = data[:,4]*u.degree
 	data[:, 5] = data[:,5]*u.degree
-	data[:, 6] = data[:,6]*u.degree
 	return data
 
 
@@ -29,11 +32,11 @@ def read_data_and_conv():
 # intercept? How would $H_0$ change if you include an intercept
 # in the fit?
 def model(r, v):
-	return slope
-
-
-
-
+	A = np.vstack([r, np.ones(len(r))])
+	print(A)
+	np.linalg.lstsq(A,v)[0]
+	
+	# return slope
 
 
 # V is a combination of any assumed cosmic expansion and the
