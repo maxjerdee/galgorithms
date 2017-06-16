@@ -8,7 +8,7 @@ t,f = tr.read_data(7016.01)
 print(t[:10])
 print(f[:10])
 tr.plot_data(7016.01);
-pars = [0, 1.0, 0.2, 200] # t0 [center], T [duration], tau [ingress duration], depth
+pars = [200, 1.0, 0.2, 0] # t0 [center], T [duration], tau [ingress duration], depth
 t,f = tr.read_data(7016.01)
 plt.plot(t, tr.trapezoid(pars,t))
 plt.ylim(-250,50)
@@ -24,7 +24,7 @@ tr.vary_tau(taus);
 # Vary t0
 t0s = np.linspace(-0.5,0.5,10)
 tr.vary_t0(t0s);
-param_guess = [0, 0.8, 0.2, 200]
+param_guess = [200, 0.8, 0.2, 0]
 tr.plot_fit(7016.01, param_guess);
 
 fit = tr.fit_trapezoid(7016.01, method='Nelder-Mead') #this uses scipy.optimize.minimize

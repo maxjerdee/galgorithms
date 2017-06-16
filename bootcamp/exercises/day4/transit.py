@@ -19,7 +19,7 @@ def read_data(object_num):
 # and plots time vs. flux of the data returned by (1).
 def plot_data(object_num):
 	t, f = read_data(object_num)
-	plt.plot(t, f)
+	plt.scatter(t, f)
 	plt.show()
 
 
@@ -33,49 +33,51 @@ def plot_data(object_num):
 # as a function of time.
 def trapezoid(pars, t):
 	# initialize variable
-	delta,T,tau,t0 = pars
+	delta,T,tau,t0 = pars;
 	# create useful vars
-	dt = np.abs(t-t0)
-	in_rad = T/2 - tau
-	f = np.zeros(t.shape) # default function array
+	dt = np.abs(t-t0);
+	ir = T/2 - tau;
+	f = np.zeros(t.shape); 
+    # default function array
 
 	# create bool arrays
-	bottom = [dt < ir]
-	slope = [dt >= ir and dt < T/2]
+	bottom = [dt < ir];
+	slope = [dt[i] >= ir and dt[i] < T/2 for i in range(len(dt))];
 
 	# change values of default function array based on conditions
+
 	f[bottom] = 0 - delta # bottom of trapezoid
-	f[slope] = 0 - delta + (delta/tau)(dt[slope] - in_rad)
+	f[slope] = 0 - delta + (delta/tau)*(dt[slope] - ir)
 
 	return f
 
 # Make four different plots that show how the trapezoid shape
 # changes when you vary each parameter independently (maybe 10
 # examples per plot).
+delta = 10; T = 5; tau = 1; t0 = 0; t = np.linspace(-10,10,200)
 def vary_depth(depths):
-	delta = depths
-	pars = delta, T, tau, t0
-	plt.plot(t, trapezoid(pars,t))
+	fig, ax = plt.subplots();
+	for i in range(len(depths)):
+		ax.plot(t, trapezoid((depths[i], T, tau, t0),t))
 	plt.show()
 
 def vary_duration(durations):
-	T = durations
-	pars = delta, T, tau, t0
-	plt.plot(t, trapezoid(pars,t))
+	fig, ax = plt.subplots();
+	for i in range(len(durations)):
+		ax.plot(t, trapezoid((delta, durations[i], tau, t0), t))
 	plt.show()
 
 def vary_tau(taus):
-	tau = taus
-	pars = delta, T, tau, t0
-	plt.plot(t, trapezoid(pars,t))
+	fig, ax = plt.subplots();
+	for i in range(len(taus)):
+		ax.plot(t, trapezoid((delta, T, taus[i], t0),t))
 	plt.show()
 
 def vary_t0(t0s):
-	t0 = t0s
-	pars = delta, T, tau, t0
-	plt.plot(t, trapezoid(pars,t))
+	fig, ax = plt.subplots();
+	for i in range(len(t0s)):
+		ax.plot(t, trapezoid((delta, T, tau, t0s[i]),t))
 	plt.show()
-
 
 
 
@@ -109,4 +111,4 @@ def plot_fit(object_num, param_guess):
 # Use scipy.optimize.minimize to find the best-fit parameters for
 # the 7016.01 data set, and display these results using (6).
 def fit_trapezoid(object_num, *args):
-        return scipy.optimize.minimize(trapezoid(pars,t),pars)
+    return scipy.optimize.minimize(trapezoid(pars,t),pars)
