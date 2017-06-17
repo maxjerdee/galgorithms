@@ -1,10 +1,13 @@
-# from scipy.stats import multivariate_normal as mvn
-# print(mvn([0,0],[[1,0],[0,1]]).pdf([[0,0],[1,1]])) 
+from scipy.stats import multivariate_normal as mvn
 import numpy as np
 import matplotlib.pyplot as plt
 import math
-def f():
-	return 1, 2, [3, 2]
-MPC_OVER_KM= 3.086*10**19
-print(MPC_OVER_KM)
-print(np.stack(([1,2,3],[4,5,6]),axis=1))
+
+n = 50;
+x = np.linspace(-1,1,n)[:,None] @ np.ones(n)[None,:]
+y = np.ones(n)[:,None] @ np.linspace(-1,1,n)[None,:]
+grid = np.stack((x.ravel(),y.ravel()),axis=1)
+res = mvn([0,0],[[0.6,0.2],[0.2,0.2]]).pdf(grid).reshape(n,n);
+res += 0.5*mvn([-0.5,0.5],[[0.2,0],[0,0.2]]).pdf(grid).reshape(n,n);
+plt.imshow(res)
+plt.show()
