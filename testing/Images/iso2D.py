@@ -14,7 +14,7 @@ def isotonic_regression(Y):
 			row.append([i,j])
 		points.append(tuple(row))
 	data = Y - res
-	partition(data, s, b, u, res, points, Y.shape[0]*Y.shape[1], 1)
+	partition(data, s, b, u, res, points, Y.shape[0]*Y.shape[1], 20)
 	"""
 	fig, axs = plt.subplots(nrows=2, ncols=2, figsize=(6,6))
 	axs[0][0].imshow(np.log(Y))
@@ -26,17 +26,20 @@ def isotonic_regression(Y):
 	"""
 	return res
 
+printing = False
 def partition(data, s, b, u, res, points, size, depth):
-	
-	print("DATA:")
-	print(np.trunc(data))
-	print("Over the points:")
-	print(points)
+	if printing:
+		print("DDDDDDDDDDDDDDDDDDDDDDDDATA:")
+		print(np.trunc(data))
+		print("Over the points:")
+		print(points)
 	sum = 0
 	for i in range(len(points)):
 		for j in range(len(points[i])):
 			sum += data[points[i][j][0]][points[i][j][1]]
-	print(sum)
+	if printing:
+		print("SUM")
+		print(np.trunc(sum*100)/100)
 	print("DEPTH: {0}, SIZE: {1}".format(depth, size))
 	if size > 1 and depth > 0:
 		rlen = []
@@ -44,6 +47,8 @@ def partition(data, s, b, u, res, points, size, depth):
 		for i in range(clen):
 			rlen.append(len(points[i]))
 		
+		max = -10000
+		max_index = [0,0]
 		for i in range(len(points)):
 			s[points[i][rlen[i]-1][0]][points[i][rlen[i]-1][1]] = data[points[i][rlen[i]-1][0]][points[i][rlen[i]-1][1]]
 			
@@ -56,28 +61,24 @@ def partition(data, s, b, u, res, points, size, depth):
 					u[points[i][j][0]][points[i][j][1]] = b[prev_end[0]][np.minimum(prev_end[1], points[i][j][1])]
 					s[points[i][j][0]][points[i][j][1]] += s[prev_end[0]][u[points[i][j][0]][points[i][j][1]]]
 			
-			max = -10000
-			m_index = -1
+			row_max = -10000
+			row_max_index = -1
 			for j in range(rlen[i]):
 				curr = s[points[i][j][0]][points[i][j][1]]
-				if curr > max:
-					max = curr
-					m_index = points[i][j][1]
-				b[points[i][j][0]][points[i][j][1]] = m_index
+				if curr > row_max:
+					row_max = curr
+					row_max_index = points[i][j][1]
+				b[points[i][j][0]][points[i][j][1]] = row_max_index
+			if row_max > max:
+				max = row_max
+				max_index[0] = i
+				max_index[1] = row_max_index
 		
 		pointers = []
-		pointers.append(b[points[clen - 1][rlen[clen - 1] - 1][0]][points[clen - 1][rlen[clen - 1] - 1][1]])
+		pointers.append(max_index[1])
 		#c_i = points[clen - 1][rlen[clen - 1] - 1][0]
-		max = -10000
-		m_index = -1
-		for i in range(clen - 1, -1, -1):
-			curr = s[points[i][0][0]][pointers[clen-1-i]]
-			if curr > max:
-				max = curr
-				m_index = i
-			#print(curr)
-			if i != 0:
-				pointers.append(u[points[i][0][0]][pointers[clen-1-i]])
+		for i in range(max_index[0], 0, -1):
+			pointers.append(u[points[i][0][0]][pointers[max_index[0]-i]])
 		"""
 		for i in range(c_i, c_i - clen + 1, -1):
 			curr = s[i][pointers[c_i - i]]
@@ -92,15 +93,18 @@ def partition(data, s, b, u, res, points, size, depth):
 		lower_points = []
 		up_num = 0
 		low_num = 0
-		#print(pointers)
-		#print(m_index)
-
+		if printing:
+			print("MAX")
+			print(np.trunc(s*100)/100)
+			print(max_index)
+			print("POINTERS")
+			print(pointers)
 		for i in range(clen):
-			href = points[i][0][1]
 			urow = []
 			lrow = []
 			for j in range(rlen[i]):
-				if((j + href) >= pointers[i] and i <= m_index):
+				#print("I {0} J {1} P[i] {2} P[i][j] {3}".format(i, j, pointers[i], points[i][j]))
+				if i <= max_index[0] and points[i][j][1] >= pointers[i]:
 					urow.append(points[i][j])
 					up_num += 1
 				else:
@@ -110,17 +114,16 @@ def partition(data, s, b, u, res, points, size, depth):
 				upper_points.append(tuple(urow))
 			if len(lrow) > 0:
 				lower_points.append(tuple(lrow))
-
-		#print(max)
-		"""
-		print("Results")
-		print(np.trunc(s))
-		print(b)
-		print(u)
-		print(upper_points)
-		print(lower_points)
-		"""
-		#print(data)
+		if printing:
+			print("Up: {0}, Low: {1}".format(up_num, low_num))
+			#print(max)
+			print("Results")
+			print(np.trunc(s*100)/100)
+			print(b)
+			print(u)
+			print(upper_points)
+			print(lower_points)
+			#print(data)
 		for i in range(len(upper_points)):
 			for j in range(len(upper_points[i])):
 				res[upper_points[i][j][0]][upper_points[i][j][1]] += max/up_num
@@ -130,21 +133,24 @@ def partition(data, s, b, u, res, points, size, depth):
 			for j in range(len(lower_points[i])):
 				res[lower_points[i][j][0]][lower_points[i][j][1]] -= max/low_num
 				data[lower_points[i][j][0]][lower_points[i][j][1]] += max/low_num
-		#print(np.trunc(data*100)/100)s
+		#print(np.trunc(data*100)/100)
+
 		if up_num != size:
 			partition(data, s, b, u, res, upper_points, up_num, depth-1)
 		if low_num != size:
 			partition(data, s, b, u, res, lower_points, low_num, depth-1)
 	else:
 		return
-np.random.seed(2)
-Y = np.load('galaxy1.npy')[15:25,5:15]
+np.random.seed(4)
+#Y = np.random.randint(1,20,size=(10,10)).astype(float)
+"""
+Y = np.load('galaxy1.npy')[15:,:15]
 newY = isotonic_regression(Y)
 fig, axs = plt.subplots(nrows=2, ncols=2, figsize=(8,8))
-axs[0][0].imshow(np.log(Y))
-axs[0][1].imshow(np.log(newY))
+axs[0][0].imshow(np.log(Y), vmin=4, vmax=8)
+col = axs[0][1].imshow(np.log(newY), vmin=4, vmax=8)
+fig.colorbar(col)
 plt.show()
-#Y = np.random.randint(20,size=(100,100)).astype(float)
 """
 Y = np.load('galaxy1.npy')
 Y1 = Y[15:,:15]
@@ -164,4 +170,4 @@ axs[0][1].imshow(np.log(newY))
 axs[1][0].imshow(np.log(Y3))
 axs[1][1].imshow(np.log(Y4))
 plt.show()
-"""
+
